@@ -24,7 +24,7 @@ export type {
 	WebhookResponse as JuroWebhookResponse,
 } from './generated/juro';
 
-export { extractLinksFromContract, extractSignature } from './utils/helpers';
+export { extractLinks, extractSignatures } from './utils/helpers';
 export { isJuroApiError } from './utils/types';
 
 const JuroService = {

@@ -1,21 +1,21 @@
 import { JuroContract, JuroSignature } from "..";
 
-export const extractSignature = (contract: JuroContract) => ({
-    nameOfOtherParty,
+export const extractSignatures = (contract: JuroContract) => ({
+    name,
     uid
 }: {
-    nameOfOtherParty?: string;
+    name?: string;
     uid?: string;
 }): Array<JuroSignature> =>
 	contract.signingSides
-		.filter((ss) => ss.name === nameOfOtherParty || ss.uid === uid)
+		.filter((ss) => ss.name === name || ss.uid === uid)
 		.flatMap((ss) => ss.signatures);
 
 type ExtractedLinks =  { internalUrl: string; otherPartySigningUrls: Array<string> };
 
-export const extractLinksFromContract = (contract: JuroContract) => (nameOfOtherParty: string): ExtractedLinks => {
+export const extractLinks = (contract: JuroContract) => (name: string): ExtractedLinks => {
 	const otherPartySigningUrls = 
-        extractSignature(contract)({nameOfOtherParty})
+        extractSignatures(contract)({name})
         .map((s) => s.signingUrl)
         .filter((s): s is string => s !== undefined);
 	const internalUrl = contract.internalUrl;
