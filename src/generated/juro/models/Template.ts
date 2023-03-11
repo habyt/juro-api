@@ -32,7 +32,7 @@ export type Template = {
     /**
      * list of question items
      */
-    questions: Question;
+    questions: Array<Question>;
     /**
      * url you would share with the outside world e.g. anonymous users
      */

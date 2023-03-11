@@ -680,7 +680,10 @@
                         "description": "template name"
                     },
                     "questions": {
-                        "$ref": "#/components/schemas/Question",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Question"
+                        },
                         "description": "list of question items"
                     },
                     "sharingUrl": {
@@ -759,7 +762,10 @@
                         "description": "template name"
                     },
                     "questions": {
-                        "$ref": "#/components/schemas/Question",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Question"
+                        },
                         "description": "list of question items"
                     },
                     "sharingUrl": {
