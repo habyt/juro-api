@@ -1,0 +1,1224 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+        "title": "Juro API - OpenAPI 3.0",
+        "description": "Juro is a platform for automating legal contract workflows, integrating contracts with data sources and managing contract lifecycles.",
+        "contact": {
+            "email": "peter.holczbauer@habyt.com"
+        },
+        "license": { 
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "0.0.1"
+    },
+    "externalDocs": {
+        "description": "Find out more about Jura API",
+        "url": "https://api-docs.juro.com/"
+    },
+    "servers": [
+        {
+            "url": "https://api.juro.com/v3/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "template",
+            "description": "Templates",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "https://api-docs.juro.com/#templates"
+            }
+        },
+        {
+            "name": "contract",
+            "description": "Contracts",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "https://api-docs.juro.com/#contracts"
+            }
+        },
+        {
+            "name": "signing",
+            "description": "Sign a contract / Send a contract for signing",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "https://api-docs.juro.com/#sign-your-contract"
+            }
+        },
+        {
+            "name": "health",
+            "description": "Health Check endpoint",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "https://api-docs.juro.com/#health"
+            }
+        }
+    ],
+    "paths": {
+        "/health": {
+            "get": {
+                "summary": "Health check",
+                "description": "Health check",
+                "operationId": "healthCheck",
+                "tags": [
+                    "health"
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/templates": {
+            "get": {
+                "summary": "Get all available templates",
+                "description": "You first want to get all templates to correctly select the one that you are going to use to create your contract.",
+                "operationId": "list",
+                "tags": [
+                    "template"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All templates listed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "templates"
+                                    ],
+                                    "properties": {
+                                        "templates": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/TemplateMinimized"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    }
+                }
+            }
+        },
+        "/templates/{id}": {
+            "get": {
+                "description": "Get a specific template",
+                "operationId": "retrieve",
+                "tags": [
+                    "template"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of template",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Retrieves a specific template.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "required": [
+                                        "template"
+                                    ],
+                                    "properties": {
+                                        "template": {
+                                            "$ref": "#/components/schemas/Template"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/contracts/": {
+            "post": {
+                "description": "Create contract",
+                "operationId": "create",
+                "tags": [
+                    "contract"
+                ],
+                "externalDocs": {
+                    "description": "This endpoint creates a contract.",
+                    "url": "https://api-docs.juro.com/#create-a-contract"
+                },
+                "requestBody": {
+                    "description": "Create a contract",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "templateId",
+                                    "contract"
+                                ],
+                                "properties": {
+                                    "templateId": {
+                                        "type": "string",
+                                        "description": "id of template"
+                                    },
+                                    "contract": {
+                                        "type": "object",
+                                        "properties": {
+                                            "answers": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/components/schemas/Answer"
+                                                },
+                                                "description": "list of field items"
+                                            },
+                                            "fields": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/components/schemas/FieldRequest"
+                                                },
+                                                "description": "list of field items"
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "description": "contract name"
+                                            },
+                                            "signingSides": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/components/schemas/SigningSideRequest"
+                                                },
+                                                "description": "list of signing side items"
+                                            },
+                                            "tables": {
+                                                "type": "array",
+                                                "items": {
+                                                    "$ref": "#/components/schemas/Table"
+                                                },
+                                                "description": "list of table items"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ContractResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/contracts/{id}": {
+            "get": {
+                "description": "Get a specific contract",
+                "operationId": "retrieve",
+                "tags": [
+                    "contract"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of contract",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ContractResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "patch": {
+                "description": "This endpoint updates an existing contract.",
+                "operationId": "update",
+                "tags": [
+                    "contract"
+                ],
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#update-a-contract"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the contract to make update request",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update a contract",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "fields": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/FieldRequest"
+                                        },
+                                        "description": "list of field items"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "description": "contract name"
+                                    },
+                                    "signingSides": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/SigningSideRequest"
+                                        },
+                                        "description": "list of signing side items"
+                                    },
+                                    "tables": {
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/Table"
+                                        },
+                                        "description": "list of table items"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/ContractResponse"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            },
+            "delete": {
+                "description": "",
+                "operationId": "delete",
+                "tags": [
+                    "contract"
+                ],
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#delete-a-contract"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the contract to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                }
+            }
+        },
+        "/contracts/{id}/sign": {
+            "post": {
+                "description": "This endpoint allows for signing of a contract.",
+                "operationId": "sign",
+                "tags": [
+                    "signing"
+                ],
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#sign-your-contract"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the contract to sign",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Sign a contract",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "signatureBase64"
+                                ],
+                                "properties": {
+                                    "signatureBase64": {
+                                        "type": "string",
+                                        "description": "signature image encoded in base64"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/contracts/:id/signing-request/:signing_side_uid": {
+            "post": {
+                "description": "Send a contract for signing.",
+                "operationId": "sendForSigning",
+                "tags": [
+                    "signing"
+                ],
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#send-contract-for-signing"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the contract to send for signing",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "signing_side_uid",
+                        "in": "path",
+                        "description": "The UID of the signing side to send to for signing",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "message"
+                                ],
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "description": "personalized message included in email body"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/contracts/:id/signing-request/:signing_side_uid/signatures/:signature_uid": {
+            "post": {
+                "description": "Send a contract for signing to a certain signatory.",
+                "operationId": "sendForSigningByCertainSignatory",
+                "tags": [
+                    "signing"
+                ],
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#send-contract-for-signing-by-certain-signatory"
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The ID of the contract to send for signing",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "signing_side_uid",
+                        "in": "path",
+                        "description": "The UID of the signing side to send to for signing",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "signature_uid",
+                        "in": "path",
+                        "description": "The UID of the signing side's signature to send to for signing",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "message"
+                                ],
+                                "properties": {
+                                    "message": {
+                                        "type": "string",
+                                        "description": "personalized message included in email body"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/200"
+                    },
+                    "403": {
+                        "$ref": "#/components/responses/403"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/404"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "TemplateMinimized": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "createdDate",
+                    "name",
+                    "status",
+                    "updateDate"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "template id"
+                    },
+                    "createdDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "document creation date"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "template name"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "edit in progress",
+                            "published"
+                        ],
+                        "description": "edit in progress or published document status"
+                    },
+                    "updateDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "date when document was last updated"
+                    }
+
+                }
+            },
+            "Template": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "createdDate",
+                    "draftLink",
+                    "fields",
+                    "internalUrl",
+                    "name",
+                    "questions",
+                    "sharingUrl",
+                    "signingSides",
+                    "state",
+                    "status",
+                    "updateDate"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "template id"
+                    },
+                    "createdDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "document creation date"
+                    },
+                    "draftLink": {
+                        "$ref": "#/components/schemas/DraftLink"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldResponse"
+                        },
+                        "description": "list of field items"
+                    },
+                    "internalUrl": {
+                        "type": "string",
+                        "description": "url for signed in Juro users"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "template name"
+                    },
+                    "questions": {
+                        "$ref": "#/components/schemas/Question",
+                        "description": "list of question items"
+                    },
+                    "sharingUrl": {
+                        "type": "string",
+                        "description": "url you would share with the outside world e.g. anonymous users"
+                    },
+                    "signingSides": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SigningSideResponse"
+                        },
+                        "description": "list of signing side items"
+                    },
+                    "state": {
+                        "type": "object",
+                        "description": "document state"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "edit in progress",
+                            "published"
+                        ],
+                        "description": "edit in progress or published document status"
+                    },
+                    "updateDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "date when document was last updated"
+                    }
+
+                }
+            },
+            "Contract": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "createdDate",
+                    "draftLink",
+                    "fields",
+                    "internalUrl",
+                    "name",
+                    "questions",
+                    "sharingUrl",
+                    "signingSides",
+                    "state",
+                    "status",
+                    "updateDate"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "contract id"
+                    },
+                    "createdDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "document creation date"
+                    },
+                    "draftLink": {
+                        "$ref": "#/components/schemas/DraftLink"
+                    },
+                    "fields": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FieldResponse"
+                        },
+                        "description": "list of field items"
+                    },
+                    "internalUrl": {
+                        "type": "string",
+                        "description": "url for signed in Juro users"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "template name"
+                    },
+                    "questions": {
+                        "$ref": "#/components/schemas/Question",
+                        "description": "list of question items"
+                    },
+                    "sharingUrl": {
+                        "type": "string",
+                        "description": "url you would share with the outside world e.g. anonymous users"
+                    },
+                    "signingSides": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SigningSideResponse"
+                        },
+                        "description": "list of signing side items"
+                    },
+                    "state": {
+                        "type": "object",
+                        "description": "document state"
+                    },
+                    "status": {
+                        "type": "string",
+                        "externalDocs": {
+                            "description": "contract status",
+                            "url": "https://api-docs.juro.com/#contract-lifecycle"
+                        },
+                        "enum": [
+                            "draft",
+                            "sent for approval",
+                            "approved",
+                            "rejected",
+                            "sent for signing",
+                            "signed by us",
+                            "signed by them",
+                            "fully signed"
+                        ]
+                    },
+                    "template": {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "name"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "template id"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "template name"
+                            }
+                        }
+                    },
+                    "updateDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "date when document was last updated"
+                    }
+                }
+            },
+            "DraftLink": {
+                "type": "object",
+                "required": [
+                    "url",
+                    "isEnabled",
+                    "enabledUntilDate"
+                ],
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "description": "draft link you would share with the outside world e.g. anonymous users"
+                    },
+                    "isEnabled": {
+                        "type": "boolean",
+                        "description": "draft link can be disabled which cuts contract's access from the outside world"
+                    },
+                    "enabledUntilDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "draft link can be enabled until provided date which cuts contract's access from the outside world after date has passed"
+                    }
+                }
+            },
+            "FieldRequest": {
+                "type": "object",
+                "required": [
+                    "uid",
+                    "value"
+                ],
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "unique id"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "smartfield value"
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#field"
+                }
+            },
+            "FieldResponse": {
+                "type": "object",
+                "required": [
+                    "uid",
+                    "title",
+                    "type",
+                    "value"
+                ],
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "unique id"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "smartfield title"
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "smartfield type calendar, choice, companies, email, number, text, text area",
+                        "enum": [
+                            "calendar",
+                            "choice",
+                            "companies",
+                            "email",
+                            "number",
+                            "text",
+                            "text area"
+                        ]
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "smartfield value"
+                    },
+                    "choices": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "list of values and is particularly used only for choice type field"
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#field"
+                }
+            },
+            "Question": {
+                "type": "object",
+                "required": [
+                    "uid",
+                    "isRequired",
+                    "signingSideUids",
+                    "title"
+                ],
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "unique question id"
+                    },
+                    "fieldUid": {
+                        "type": "string",
+                        "description": "a field uid, which will be populated after passing Q&A"
+                    },
+                    "isRequired": {
+                        "type": "string",
+                        "description": "signals that this question cannot be skipped in Q&A for a list of signing side s"
+                    },
+                    "signingSideUids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "description": "this question s takes part for a list of signing side s when they are passing Q&A"
+                    },
+                    "text": {
+                        "type": "string",
+                        "description": "question text helper, which should assist person with how this question should be answered"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "main question text - e.g. What is your name?"
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#question"
+                }
+            },
+            "Answer": {
+                "type": "object",
+                "required": [
+                    "uid",
+                    "value"
+                ],
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "question uid"
+                    },
+                    "value": {
+                        "type": "string",
+                        "description": "value for particular answer. Value will be propagated to the field linked in the question"
+                    }
+                },
+                "externalDocs": {
+                    "description": "An answer item is an answer to the question item and is particularly used only during contract creation. answer will populate field refered as fieldUid in question",
+                    "url": "https://api-docs.juro.com/#answer"
+                }
+            },
+            "SigningSideResponse": {
+                "type": "object",
+                "required": [
+                    "uid",
+                    "name",
+                    "signatures"
+                ],
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "unique id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of the signing side"
+                    },
+                    "signatures": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Signature"
+                        },
+                        "description": "list of signature items. Each signature represents a person on either “your” or 'their' side"
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#signing-side"
+                }
+            },
+            "SigningSideRequest": {
+                "type": "object",
+                "required": [
+                    "uid",
+                    "signatures"
+                ],
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "unique id"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of the signing side - used for external types"
+                    },
+                    "signatures": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Signature"
+                        },
+                        "description": "list of signature items. Each signature represents a person on either “your” or 'their' side"
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#signing-side"
+                }
+            },
+            "Signature": {
+                "type": "object",
+                "description": "Each signature represents a person on either 'your' or 'their' side",
+                "required": [
+                    "uid"
+                ],
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "unique id"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "email of the person that that is on 'their' side"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "name of the person on 'their' side"
+                    },
+                    "signingUrl": {
+                        "type": "string",
+                        "description": "url you would share with the person on 'their' side to capture a signature or gather data from completing Q&A"
+                    },
+                    "username": {
+                        "type": "string",
+                        "description": "signed in Juro username on 'your' side"
+                    }
+                }
+
+            },
+            "Table": {
+                "type": "object",
+                "description": "Table in Juro is more like grid than a table, meaning it doesn't have headers, just a two-dimensional array of rows and columns in it, making it easier to utilize table api.",
+                "properties": {
+                    "uid": {
+                        "type": "string",
+                        "description": "unique id"
+                    },
+                    "rows": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "value"
+                                ],
+                                "properties": {
+                                    "value": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "description": "two-dimensional array, where first dimension represents rows, and second dimension is an array of columns. Each column has a value property which is column's value - e.g. text in table's cell"
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#table"
+                }
+            },
+            "WebhookEvent": {
+                "type": "object",
+                "required": [
+                    "type"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "contract.created",
+                            "contract.deleted",
+                            "contract.edit",
+                            "contract.commented",
+                            "contract.viewed",
+                            "contract.pdf_generated",
+                            "contract.sent_link_to_counterparty",
+                            "contract.signed",
+                            "contract.approval_requested",
+                            "contract.approval_in_progress",
+                            "contract.approval_process_finished",
+                            "contract.approval_denied",
+                            "contract.approval_request_cancelled"
+                        ]
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#events"
+                }
+            },
+            "WebhookResponse": {
+                "type": "object",
+                "required": [
+                    "contract",
+                    "event"
+                ],
+                "properties": {
+                    "contract": {
+                        "$ref": "#/components/schemas/Contract"
+                    },
+                    "event": {
+                        "$ref": "#/components/schemas/WebhookEvent"
+                    }
+                },
+                "externalDocs": {
+                    "url": "https://api-docs.juro.com/#webhooks"
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Default successful response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "message"
+                            ],
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "enum": [
+                                        "ok"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "403": {
+                "description": "Authentication failed",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "message"
+                            ],
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "enum": [
+                                        "Forbidden"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "404": {
+                "description": "Not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "message"
+                            ],
+                            "properties": {
+                                "message": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "ContractResponse": {
+                "description": "contract object response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "contract"
+                            ],
+                            "properties": {
+                                "contract": {
+                                    "$ref": "#/components/schemas/Contract"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "name": "x-api-key",
+                "in": "header"
+            }
+        }
+    }
+}
