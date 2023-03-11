@@ -26,6 +26,6 @@ The package is using the `fetch` API, hence you need to provide it with one of t
 ```
 import { Juro } from '@habyt/juro-api';
 
-const juro = Juro(apiKey);
+const juro = Juro('your-juro-api-key');
 const result = await juro.health.healthCheck(); //result is { message: 'ok' }
 ```
