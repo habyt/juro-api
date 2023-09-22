@@ -1,23 +1,23 @@
 {
-  "name": "juro-api",
+  "name": "@holczhabyt/juro-api",
   "version": "1.0.0",
   "description": "Typed client API for Juro",
+  "author": "Holcz - peter.holczbauer@habyt.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/habyt/juro-api.git/issues"
+  },
+  "homepage": "https://github.com/habyt/juro-api.git#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/habyt/juro-api.git"
+  },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest",
     "generate": "openapi --input ./openapi-specs/juro-api-spec.json --output ./src/generated/juro --useOptions --useUnionTypes"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/habyt/juro-api.git"
-  },
-  "author": "holcz",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/habyt/juro-api.git/issues"
-  },
-  "homepage": "https://github.com/habyt/juro-api.git#readme",
   "devDependencies": {
     "@swc/core": "^1.2.172",
     "@swc/jest": "^0.2.20",
