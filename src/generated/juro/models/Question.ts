@@ -14,7 +14,7 @@ export type Question = {
     /**
      * signals that this question cannot be skipped in Q&A for a list of signing side s
      */
-    isRequired: string;
+    isRequired: boolean;
     /**
      * this question s takes part for a list of signing side s when they are passing Q&A
      */

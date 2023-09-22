@@ -22,6 +22,6 @@ export type TemplateMinimized = {
     /**
      * date when document was last updated
      */
-    updateDate: string;
+    updatedDate: string;
 };
 

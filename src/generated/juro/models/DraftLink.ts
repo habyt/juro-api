@@ -14,6 +14,6 @@ export type DraftLink = {
     /**
      * draft link can be enabled until provided date which cuts contract's access from the outside world after date has passed
      */
-    enabledUntilDate: string;
+    enabledUntilDate?: string;
 };
 

@@ -13,11 +13,11 @@ export type Signature = {
     /**
      * email of the person that that is on 'their' side
      */
-    email?: string;
+    email?: string | null;
     /**
      * name of the person on 'their' side
      */
-    name?: string;
+    name?: string | null;
     /**
      * url you would share with the person on 'their' side to capture a signature or gather data from completing Q&A
      */

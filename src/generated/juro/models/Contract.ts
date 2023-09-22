@@ -6,6 +6,7 @@ import type { DraftLink } from './DraftLink';
 import type { FieldResponse } from './FieldResponse';
 import type { Question } from './Question';
 import type { SigningSideResponse } from './SigningSideResponse';
+import type { Table } from './Table';
 
 export type Contract = {
     /**
@@ -30,6 +31,19 @@ export type Contract = {
      */
     name: string;
     /**
+     * contract owner's name
+     */
+    owner?: {
+        /**
+         * owner name
+         */
+        name: string;
+        /**
+         * owner username
+         */
+        username: string;
+    };
+    /**
      * list of question items
      */
     questions: Array<Question>;
@@ -46,6 +60,20 @@ export type Contract = {
      */
     state: any;
     status: 'draft' | 'sent for approval' | 'approved' | 'rejected' | 'sent for signing' | 'signed by us' | 'signed by them' | 'fully signed';
+    /**
+     * list of table items
+     */
+    tables?: Array<Table>;
+    team?: {
+        /**
+         * team id
+         */
+        id: string;
+        /**
+         * team name
+         */
+        name: string;
+    };
     template?: {
         /**
          * template id
@@ -59,6 +87,6 @@ export type Contract = {
     /**
      * date when document was last updated
      */
-    updateDate: string;
+    updatedDate: string;
 };
 

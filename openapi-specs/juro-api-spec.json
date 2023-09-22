@@ -603,7 +603,7 @@
                     "createdDate",
                     "name",
                     "status",
-                    "updateDate"
+                    "updatedDate"
                 ],
                 "properties": {
                     "id": {
@@ -627,7 +627,7 @@
                         ],
                         "description": "edit in progress or published document status"
                     },
-                    "updateDate": {
+                    "updatedDate": {
                         "type": "string",
                         "format": "date-time",
                         "description": "date when document was last updated"
@@ -649,7 +649,7 @@
                     "signingSides",
                     "state",
                     "status",
-                    "updateDate"
+                    "updatedDate"
                 ],
                 "properties": {
                     "id": {
@@ -682,7 +682,7 @@
                     "questions": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Question"
+                            "$ref": "#/components/schemas/Question",
                         },
                         "description": "list of question items"
                     },
@@ -709,7 +709,7 @@
                         ],
                         "description": "edit in progress or published document status"
                     },
-                    "updateDate": {
+                    "updatedDate": {
                         "type": "string",
                         "format": "date-time",
                         "description": "date when document was last updated"
@@ -731,7 +731,7 @@
                     "signingSides",
                     "state",
                     "status",
-                    "updateDate"
+                    "updatedDate"
                 ],
                 "properties": {
                     "id": {
@@ -761,10 +761,28 @@
                         "type": "string",
                         "description": "template name"
                     },
+                    "owner": {
+                        "type": "object",
+                        "description": "contract owner's name",
+                        "required": [
+                            "name",
+                            "username"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "owner name"
+                            },
+                            "username": {
+                                "type": "string",
+                                "description": "owner username"
+                            }
+                        }
+                    },
                     "questions": {
                         "type": "array",
                         "items": {
-                            "$ref": "#/components/schemas/Question"
+                            "$ref": "#/components/schemas/Question",
                         },
                         "description": "list of question items"
                     },
@@ -800,6 +818,30 @@
                             "fully signed"
                         ]
                     },
+                    "tables": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Table"
+                        },
+                        "description": "list of table items"
+                    },
+                    "team": {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "name"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "team id"
+                            },
+                            "name": {
+                                "type": "string",
+                                "description": "team name"
+                            }
+                        }
+                    },
                     "template": {
                         "type": "object",
                         "required": [
@@ -817,7 +859,7 @@
                             }
                         }
                     },
-                    "updateDate": {
+                    "updatedDate": {
                         "type": "string",
                         "format": "date-time",
                         "description": "date when document was last updated"
@@ -828,8 +870,7 @@
                 "type": "object",
                 "required": [
                     "url",
-                    "isEnabled",
-                    "enabledUntilDate"
+                    "isEnabled"
                 ],
                 "properties": {
                     "url": {
@@ -931,7 +972,7 @@
                         "description": "a field uid, which will be populated after passing Q&A"
                     },
                     "isRequired": {
-                        "type": "string",
+                        "type": "boolean",
                         "description": "signals that this question cannot be skipped in Q&A for a list of signing side s"
                     },
                     "signingSideUids": {
@@ -1042,11 +1083,11 @@
                         "description": "unique id"
                     },
                     "email": {
-                        "type": "string",
+                        "type": ["null", "string"],
                         "description": "email of the person that that is on 'their' side"
                     },
                     "name": {
-                        "type": "string",
+                        "type": ["null", "string"],
                         "description": "name of the person on 'their' side"
                     },
                     "signingUrl": {

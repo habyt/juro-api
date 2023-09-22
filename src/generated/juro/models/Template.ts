@@ -52,6 +52,6 @@ export type Template = {
     /**
      * date when document was last updated
      */
-    updateDate: string;
+    updatedDate: string;
 };
 
