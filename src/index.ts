@@ -1,14 +1,21 @@
 import {
-	ContractService,
-	HealthService,
+	ContractService as JuroContractService,
+	HealthService as JuroHealthService,
 	OpenAPI as JuroOpenApi,
-	SigningService,
-	TemplateService,
+	SigningService as JuroSigningService,
+	TemplateService as JuroTemplateService,
 } from './generated/juro';
+
+export {
+	JuroContractService,
+	JuroHealthService,
+	JuroOpenApi,
+	JuroSigningService,
+	JuroTemplateService,
+}
 
 export type {
 	Answer as JuroAnswer,
-	ApiError as JuroApiError,
 	Contract as JuroContract,
 	DraftLink as JuroDraftLink,
 	FieldRequest as JuroFieldRequest,
@@ -24,14 +31,18 @@ export type {
 	WebhookResponse as JuroWebhookResponse,
 } from './generated/juro';
 
+export {
+	ApiError as JuroApiError,
+} from './generated/juro'
+
 export { extractLinks, extractSignatures } from './utils/helpers';
 export { isJuroApiError } from './utils/types';
 
 const JuroService = {
-	health: HealthService,
-	templates: TemplateService,
-	contracts: ContractService,
-	signing: SigningService,
+	health: JuroHealthService,
+	templates: JuroTemplateService,
+	contracts: JuroContractService,
+	signing: JuroSigningService,
 }
 
 export const Juro = (apiKey: string) => {
@@ -43,3 +54,5 @@ export const Juro = (apiKey: string) => {
 }
 
 export default Juro;
+
+module.exports = Juro;
