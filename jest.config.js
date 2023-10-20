@@ -1,6 +1,8 @@
 module.exports = {
-	testMatch: ['**/tests/**/*.test.ts'],
-	transform: {
-		'\\.ts$': '@swc/jest',
-	},
+	clearMocks: true,
+    preset: 'ts-jest',
+    testRegex: '/__tests__/.*\\.test\\.(ts|tsx)$',
+    transform: {
+        '\\.(ts|tsx)$': 'ts-jest',
+    },
 }
