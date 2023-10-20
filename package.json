@@ -1,6 +1,6 @@
 {
   "name": "@habytorg/juro-api",
-  "version": "1.0.2",
+  "version": "1.0.5",
   "description": "Typed client API for Juro",
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
@@ -8,8 +8,7 @@
     "test": "yarn jest",
     "generate": "openapi --input ./openapi-specs/juro-api-spec.json --output ./src/generated/juro --useOptions --useUnionTypes",
     "compile": "tsc",
-    "build": "tsc -p tsconfig.build.json",
-    "publish": "yarn build && npm publish --access public"
+    "build": "tsc -p tsconfig.build.json"
   },
   "repository": {
     "type": "git",
