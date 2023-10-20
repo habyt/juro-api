@@ -54,5 +54,3 @@ export const Juro = (apiKey: string) => {
 }
 
 export default Juro;
-
-module.exports = Juro;
