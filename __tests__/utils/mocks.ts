@@ -1,4 +1,4 @@
-import { JuroContract, JuroSignature } from "../src";
+import { JuroContract, JuroSignature } from "../../src";
 
 export const mockSignature = (obj?: Partial<JuroSignature>): JuroSignature => ({
     uid: 'signature-uid',
@@ -14,7 +14,7 @@ export const mockJuroContract = (obj?: Partial<JuroContract>): JuroContract => (
     name: 'contract-name',
     internalUrl: 'contract-internalUrl',
     createdDate: '2022-01-01T00:00:00.000Z',
-    updateDate: '2022-01-01T00:00:00.000Z',
+    updatedDate: '2022-01-01T00:00:00.000Z',
     draftLink: {
         url: 'contract-draftLink-url',
         isEnabled: true,
