@@ -1,5 +1,5 @@
-import { extractLinks, extractSignatures } from "../src";
-import { mockJuroContract, mockSignature } from "./mocks";
+import { extractLinks, extractSignatures } from "../src/utils/helpers";
+import { mockJuroContract, mockSignature } from "./utils/mocks";
 
 describe('extractSignature', () => {
     it('returns a signature that matches the name or uid', () => {
